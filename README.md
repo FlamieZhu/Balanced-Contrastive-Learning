@@ -19,7 +19,7 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 - tensorboardX
 
 ## Usage
-### ImageNet-LT
+### ImageNet-LT (90 epochs training)
 ```
 python main.py --data /share/common/ImageDatasets/imagenet_2012 \
   --lr 0.1 -p 200 --epochs 90 \
@@ -27,3 +27,4 @@ python main.py --data /share/common/ImageDatasets/imagenet_2012 \
   --wd 5e-4 --cos True \
   --cl_views sim-sim
 ```
+To run BCL with other augmentation stragey for contrastive learning branch, set `--cl_views sim-rand` or `--cl_views rand-rand`
