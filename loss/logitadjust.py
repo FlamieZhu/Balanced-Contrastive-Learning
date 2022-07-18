@@ -16,9 +16,5 @@ class LogitAdjust(nn.Module):
         self.weight = weight
 
     def forward(self, x, target):
-        index = torch.zeros_like(x, dtype=torch.uint8)
-        index.scatter_(1, target.data.view(-1, 1), 1)
-        index_neg = torch.zeros_like(x, dtype=torch.uint8)
-        mask = index_neg.eq(index).byte()
         x_m = x + self.m_list
         return F.cross_entropy(x_m, target, weight=self.weight)
