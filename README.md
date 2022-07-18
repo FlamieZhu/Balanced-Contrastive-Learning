@@ -26,9 +26,9 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 ### ImageNet-LT 
  | Method | Views |Epochs| Model | Top-1 Acc(%) | link | 
  | :---: | :---: |:---: | :---: | :---: | :---: | 
- |BCL| sim-sim  | 90 | ResNext-50   | 57.2 | a | 
- |BCL| sim-rand | 90 | ResNext-50   | 57.2 | b |
- |BCL| rand-rand | 90 | ResNext-50   | 57.8 | c |
+ |BCL| sim-sim  | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1HLdH6B4yNcLTpnW9azVjWTZUsCVGCAUY/view?usp=sharing) | 
+ |BCL| sim-rand | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing)|
+ |BCL| rand-rand | 90 | ResNext-50   | 57.8 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing) |
  
 ## Usage
 For ImageNet-LT and iNaturalist 2018 training and evuluation. All experiments are conducted on 4 GPUs.
