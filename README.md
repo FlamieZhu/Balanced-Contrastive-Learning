@@ -31,7 +31,7 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
  |BCL| rand-rand | 90 | ResNext-50   | 57.8 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing) |
  
 ## Usage
-For ImageNet-LT and iNaturalist 2018 training and evuluation. All experiments are conducted on 4 GPUs.
+For ImageNet-LT and iNaturalist 2018 training and evaluation. All experiments are conducted on 4 GPUs.
 ### ImageNet-LT 
 To do supervised training with BCL for 90 epochs on ImageNet-LT, run
 ```
