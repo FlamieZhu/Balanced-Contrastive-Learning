@@ -27,7 +27,7 @@ parser.add_argument('--data', default='/DATACENTER/raid5/zjg/imagenet', metavar=
 parser.add_argument('--arch', default='resnext50', choices=['resnet50', 'resnext50'])
 parser.add_argument('--workers', default=12, type=int)
 parser.add_argument('--epochs', default=90, type=int)
-parser.add_argument('--temp', default=0.1, type=float, help='scalar temperature for contrastive learning')
+parser.add_argument('--temp', default=0.07, type=float, help='scalar temperature for contrastive learning')
 parser.add_argument('--start_epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 parser.add_argument('-b', '--batch-size', default=256, type=int,
