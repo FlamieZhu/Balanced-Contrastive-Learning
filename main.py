@@ -55,7 +55,7 @@ parser.add_argument('--gpu', default=None, type=int,
 parser.add_argument('--alpha', default=1.0, type=float, help='cross entropy loss weight')
 parser.add_argument('--beta', default=0.35, type=float, help='supervised contrastive loss weight')
 parser.add_argument('--randaug', default=True, type=bool, help='use RandAugmentation for classification branch')
-parser.add_argument('--cl_views', default='sim-sim', type=str, choices=['sim-sim', 'sim-rand', 'randstack-randstack'],
+parser.add_argument('--cl_views', default='sim-sim', type=str, choices=['sim-sim', 'sim-rand', 'rand-rand'],
                     help='Augmentation strategy for contrastive learning views')
 parser.add_argument('--feat_dim', default=1024, type=int, help='feature dimension of mlp head')
 parser.add_argument('--warmup_epochs', default=0, type=int,
@@ -75,7 +75,7 @@ def main():
     args = parser.parse_args()
     args.store_name = '_'.join(
         [args.dataset, args.arch, 'batchsize', str(args.batch_size), 'epochs', str(args.epochs), 'temp', str(args.temp),
-         'lr', str(args.lr), args.cl_views, 'noscale'])
+         'lr', str(args.lr), args.cl_views])
 
     if args.seed is not None:
         random.seed(args.seed)
@@ -101,7 +101,6 @@ def main_worker(gpu, ngpus_per_node, args):
 
     # create model
     print("=> creating model '{}'".format(args.arch))
-    num_classes = 1000 if args.dataset == 'imagenet' else 8142
     if args.arch == 'resnet50':
         model = resnext.BCLModel(name='resnet50', num_classes=num_classes, feat_dim=args.feat_dim,
                                  use_norm=args.use_norm)
@@ -139,10 +138,10 @@ def main_worker(gpu, ngpus_per_node, args):
 
     cudnn.benchmark = True
 
-    txt_train = f'/share/home/zjg/BCL/dataset/ImageNet_LT/ImageNet_LT_train.txt' if args.dataset == 'imagenet' \
-        else f'/share/home/zjg/BCL/dataset/iNaturalist18/iNaturalist18_train.txt'
-    txt_val = f'/share/home/zjg/BCL/dataset/ImageNet_LT/ImageNet_LT_val.txt' if args.dataset == 'imagenet' \
-        else f'/share/home/zjg/BCL/dataset/iNaturalist18/iNaturalist18_val.txt'
+    txt_train = f'dataset/ImageNet_LT/ImageNet_LT_train.txt' if args.dataset == 'imagenet' \
+        else f'dataset/iNaturalist18/iNaturalist18_train.txt'
+    txt_val = f'dataset/ImageNet_LT/ImageNet_LT_val.txt' if args.dataset == 'imagenet' \
+        else f'dataset/iNaturalist18/iNaturalist18_val.txt'
 
     normalize = transforms.Normalize((0.466, 0.471, 0.380), (0.195, 0.194, 0.192)) if args.dataset == 'inat' \
         else transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
@@ -163,10 +162,9 @@ def main_worker(gpu, ngpus_per_node, args):
         transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.RandomApply([
-            transforms.ColorJitter(0.4, 0.4, 0.4, 0.0)
-        ], p=1.0),
+            transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
+        ], p=0.8),
         transforms.RandomGrayscale(p=0.2),
-        transforms.RandomApply([GaussianBlur([.1, 2.])], p=0.5),
         rand_augment_transform('rand-n{}-m{}-mstd0.5'.format(args.randaug_n, args.randaug_m), ra_params),
         transforms.ToTensor(),
         normalize,
@@ -185,7 +183,7 @@ def main_worker(gpu, ngpus_per_node, args):
         transform_train = [transforms.Compose(augmentation_randncls), transforms.Compose(augmentation_sim),
                            transforms.Compose(augmentation_sim), ]
     elif args.cl_views == 'sim-rand':
-        transform_train = [transforms.Compose(augmentation_randncls), transforms.Compose(augmentation_randncls),
+        transform_train = [transforms.Compose(augmentation_randncls), transforms.Compose(augmentation_randnclsstack),
                            transforms.Compose(augmentation_sim), ]
     elif args.cl_views == 'randstack-randstack':
         transform_train = [transforms.Compose(augmentation_randncls), transforms.Compose(augmentation_randnclsstack),
@@ -233,18 +231,14 @@ def main_worker(gpu, ngpus_per_node, args):
     criterion_ce = LogitAdjust(cls_num_list).cuda(args.gpu)
     criterion_scl = BalSCL(cls_num_list, args.temp).cuda(args.gpu)
 
-    # log_training = open(os.path.join(args.root_log, args.store_name, 'log_train.csv'), 'w')
-    # log_testing = open(os.path.join(args.root_log, args.store_name, 'log_test.csv'), 'w')
-    # with open(os.path.join(args.root_log, args.store_name, 'args.txt'), 'w') as f:
-    #     f.write(str(args))
     tf_writer = SummaryWriter(log_dir=os.path.join(args.root_log, args.store_name))
 
     best_acc1 = 0.0
     best_many, best_med, best_few = 0.0, 0.0, 0.0
 
     if args.reload:
-        txt_test = f'/share/home/zjg/BCL/dataset/ImageNet_LT/ImageNet_LT_test.txt' if args.dataset == 'imagenet' \
-            else f'/share/home/zjg/BCL/dataset/iNaturalist18/iNaturalist18_val.txt'
+        txt_test = f'dataset/ImageNet_LT/ImageNet_LT_test.txt' if args.dataset == 'imagenet' \
+            else f'dataset/iNaturalist18/iNaturalist18_val.txt'
         test_dataset = INaturalist(
             root=args.data,
             txt=txt_test,
@@ -271,8 +265,6 @@ def main_worker(gpu, ngpus_per_node, args):
         train(train_loader, model, criterion_ce, criterion_scl, optimizer, epoch, args, tf_writer)
 
         # evaluate on validation set
-        # acc1, many, medium, few = validate(train_dataset, val_loader, model, criterion_ce, epoch, args,
-        #                                    tf_writer)
         acc1, many, med, few = validate(train_loader, val_loader, model, criterion_ce, epoch, args,
                                         tf_writer)
 
