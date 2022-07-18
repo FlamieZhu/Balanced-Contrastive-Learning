@@ -24,12 +24,13 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 - tensorboardX
 
 ## Results and Pretrained Models
+We provide three options for data augmentations of contrastive leanring branch: sim-sim, sim-rand and rand-rand. We use sim as the default data augmentation as in MoCo-V2, and rand as a stronger way to combine with RandAugment.
 ### ImageNet-LT 
  | Method | Views |Epochs| Model | Top-1 Acc(%) | link | 
  | :---: | :---: |:---: | :---: | :---: | :---: | 
- |BCL| sim-sim  | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1HLdH6B4yNcLTpnW9azVjWTZUsCVGCAUY/view?usp=sharing) | 
- |BCL| sim-rand | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1r4tkh8zxBp6mjFGfupOpJEvUfx9UPT_4/view?usp=sharing)|
- |BCL| rand-rand | 90 | ResNext-50   | 57.8 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing) |
+ |BCL| sim-sim  | 90 | ResNeXt-50   | 57.2 | [download](https://drive.google.com/file/d/1HLdH6B4yNcLTpnW9azVjWTZUsCVGCAUY/view?usp=sharing) | 
+ |BCL| sim-rand | 90 | ResNeXt-50   | 57.2 | [download](https://drive.google.com/file/d/1r4tkh8zxBp6mjFGfupOpJEvUfx9UPT_4/view?usp=sharing)|
+ |BCL| rand-rand | 90 | ResNeXt-50   | 57.8 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing) |
  
 ## Usage
 For ImageNet-LT and iNaturalist 2018 training and evaluation. All experiments are conducted on 4 GPUs.
