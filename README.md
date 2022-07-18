@@ -19,12 +19,23 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 - tensorboardX
 
 ## Usage
-### ImageNet-LT (90 epochs training)
+For ImageNet-LT and iNaturalist 2018 training and evuluation. All experiments are conducted on 4 GPUs.
+### ImageNet-LT 
+To do supervised training with BCL for 90 epochs on ImageNet-LT, run
 ```
 python main.py --data /share/common/ImageDatasets/imagenet_2012 \
   --lr 0.1 -p 200 --epochs 90 \
-  --arch resnext50 --use-norm True \
+  --arch resnet50 --use-norm True \
   --wd 5e-4 --cos True \
   --cl_views sim-sim
 ```
-To run BCL with other augmentation stragey for contrastive learning branch, set `--cl_views sim-rand` or `--cl_views rand-rand`
+To run BCL with other augmentation stragey and models for contrastive learning branch, set `--cl_views sim-rand` or `--cl_views rand-rand` and ` --arch resnext50` .
+
+
+To evaluate the performance on the test set, run
+```
+python main.py --data /share/common/ImageDatasets/imagenet_2012 \
+  --arch resnet50 --use-norm True \
+  --p 10 --reload True \
+  --resume log/imagenet_resnet50_batchsize256_epochs_90_temp_0.07_lr_0.1_sim-sim/bcl_ckpt.best.pth.tar
+```
