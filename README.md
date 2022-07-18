@@ -17,3 +17,13 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 - pytorch>=1.6.0
 - torchvision
 - tensorboardX
+
+## Usage
+### ImageNet-LT
+```
+python main.py --data /share/common/ImageDatasets/imagenet_2012 \
+  --lr 0.1 -p 200 --epochs 90 \
+  --arch resnext50 --use-norm True \
+  --wd 5e-4 --cos True \
+  --cl_views sim-sim
+```
