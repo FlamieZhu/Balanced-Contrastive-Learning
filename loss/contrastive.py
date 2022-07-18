@@ -33,24 +33,24 @@ class BalSCL(nn.Module):
             0
         )
         mask = mask * logits_mask
-
+        
+        # class-complement
         features = torch.cat(torch.unbind(features, dim=1), dim=0)
         features = torch.cat([features, centers1], dim=0)
         logits = features[:2 * batch_size].mm(features.T)
-
         logits = torch.div(logits, self.temperature)
 
         # For numerical stability
         logits_max, _ = torch.max(logits, dim=1, keepdim=True)
         logits = logits - logits_max.detach()
 
-
+        # class-averaging
         exp_logits = torch.exp(logits) * logits_mask
         per_ins_weight = torch.tensor([batch_cls_count[i] for i in targets], device=device).view(1, -1).expand(
             2 * batch_size, 2 * batch_size + len(self.cls_num_list)) - mask
         exp_logits_sum = exp_logits.div(per_ins_weight).sum(dim=1, keepdim=True)
+        
         log_prob = logits - torch.log(exp_logits_sum)
-
         mean_log_prob_pos = (mask * log_prob).sum(1) / mask.sum(1)
 
         loss = - mean_log_prob_pos
