@@ -23,7 +23,7 @@ For ImageNet-LT and iNaturalist 2018 training and evuluation. All experiments ar
 ### ImageNet-LT 
 To do supervised training with BCL for 90 epochs on ImageNet-LT, run
 ```
-python main.py --data /share/common/ImageDatasets/imagenet_2012 \
+python main.py --data /ImageDatasets/imagenet_2012 \
   --lr 0.1 -p 200 --epochs 90 \
   --arch resnet50 --use-norm True \
   --wd 5e-4 --cos True \
@@ -34,8 +34,17 @@ To run BCL with other augmentation stragey and models for contrastive learning b
 
 To evaluate the performance on the test set, run
 ```
-python main.py --data /share/common/ImageDatasets/imagenet_2012 \
+python main.py --data /ImageDatasets/imagenet_2012 \
   --arch resnet50 --use-norm True \
   --p 10 --reload True \
   --resume log/imagenet_resnet50_batchsize256_epochs_90_temp_0.07_lr_0.1_sim-sim/bcl_ckpt.best.pth.tar
+```
+### iNaturalist 2018 
+To do supervised training with BCL for 100 epochs on iNaturalist 2018, run
+```
+python main.py --data /ImageDatasets/inat2018 \
+  --lr 0.2 -p 200 --epochs 100 \
+  --arch resnet50 --use-norm True \
+  --wd 1e-4 --cos True \
+  --cl_views sim-sim
 ```
