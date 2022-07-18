@@ -24,7 +24,7 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 - tensorboardX
 
 ## Results and Pretrained Models
-We provide three options for data augmentations of contrastive leanring branch: sim-sim, sim-rand and rand-rand. We use sim as the default data augmentation as in MoCo-V2, and rand as a stronger way to combine with RandAugment.
+We provide three options for data augmentations of contrastive leanring branch: **sim-sim**, **sim-rand** and **rand-rand**. We use sim as the default data augmentation as in MoCo-V2, and rand as a stronger way to combine with RandAugment.
 ### ImageNet-LT 
  | Method | Views |Epochs| Model | Top-1 Acc(%) | link | 
  | :---: | :---: |:---: | :---: | :---: | :---: | 
