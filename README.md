@@ -27,7 +27,7 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
  | Method | Views |Epochs| Model | Top-1 Acc(%) | link | 
  | :---: | :---: |:---: | :---: | :---: | :---: | 
  |BCL| sim-sim  | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1HLdH6B4yNcLTpnW9azVjWTZUsCVGCAUY/view?usp=sharing) | 
- |BCL| sim-rand | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing)|
+ |BCL| sim-rand | 90 | ResNext-50   | 57.2 | [download](https://drive.google.com/file/d/1r4tkh8zxBp6mjFGfupOpJEvUfx9UPT_4/view?usp=sharing)|
  |BCL| rand-rand | 90 | ResNext-50   | 57.8 | [download](https://drive.google.com/file/d/1UXYceJXMybkipkTgznfnpTLidoLdNfcy/view?usp=sharing) |
  
 ## Usage
