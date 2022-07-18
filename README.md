@@ -18,6 +18,14 @@ Real-world data typically follow a long-tailed distribution, where a few majorit
 - torchvision
 - tensorboardX
 
+## Results and Pretrained Models
+## ImageNet-LT 
+ | Method | Epochs| Model | Top-1 Acc(%) | link | 
+ | :---: | :---: |:---: | :---: | :---: | :---: |
+ | sim-sim  | 90 | ResNext-50   | 57.2 | a | 
+ | sim-rand | 90 | ResNext-50   | 57.2 | b |
+ | rand-rand | 90 | ResNext-50   | 57.8 | c |
+ 
 ## Usage
 For ImageNet-LT and iNaturalist 2018 training and evuluation. All experiments are conducted on 4 GPUs.
 ### ImageNet-LT 
