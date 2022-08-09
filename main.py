@@ -331,10 +331,9 @@ def train(train_loader, model, criterion_ce, criterion_scl, optimizer, epoch, ar
                 epoch, i, len(train_loader), batch_time=batch_time,
                 ce_loss=ce_loss_all, scl_loss=scl_loss_all, top1=top1, ))  # TODO
             print(output)
-
-        tf_writer.add_scalar('CE loss/train', ce_loss_all.avg, epoch)
-        tf_writer.add_scalar('SCL loss/train', scl_loss_all.avg, epoch)
-        tf_writer.add_scalar('acc/train_top1', top1.avg, epoch)
+     tf_writer.add_scalar('CE loss/train', ce_loss_all.avg, epoch)
+     tf_writer.add_scalar('SCL loss/train', scl_loss_all.avg, epoch)
+     tf_writer.add_scalar('acc/train_top1', top1.avg, epoch)
 
 
 def validate(train_loader, val_loader, model, criterion_ce, epoch, args, tf_writer=None, flag='val'):
