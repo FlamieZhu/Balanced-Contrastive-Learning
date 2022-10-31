@@ -5,7 +5,7 @@ This is a Pytorch implementation of the [BCL paper](https://openaccess.thecvf.co
 <img src="https://github.com/FlamieZhu/BCL/blob/main/img/bcl.png" width="800">
 </p>
 
-If you find this code useful, please consider cite our paper:
+If you find this code useful, please consider citing our paper:
 ```
 @inproceedings{zhu2022balanced,
   title={Balanced Contrastive Learning for Long-Tailed Visual Recognition},
